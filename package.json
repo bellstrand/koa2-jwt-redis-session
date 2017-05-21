@@ -1,34 +1,33 @@
 {
+  "main": "./lib/index.js",
   "bugs": {
-    "url": "https://github.com/mrsunlin/koa-jwt-redis-session/issues"
+    "url": "https://github.com/iwater/koa2-jwt-redis-session/issues"
   },
   "dependencies": {
     "debug": "*",
-    "redis": "^2.5.3",
-    "thunkify": "^2.1.2",
-    "uid2": "^0.0.3",
-    "jsonwebtoken": "^5.7.0",
-    "co": "^4.6.0",
-    "ioredis": "^1.15.1"
+    "ioredis": "^2.5.0",
+    "jsonwebtoken": "^7.4.1",
+    "uid2": "^0.0.3"
   },
   "description": "Pure JWT implementation using Redis as session storage for Koa 2, without any cookies",
   "devDependencies": {
-    "koa": "^2.0.0",
-    "koa-convert": "*",
-    "koa-bodyparser": "^3.0.0",
-    "mocha": "*",
-    "should": "*",
-    "supertest": "*",
-    "supertest-koa-agent": "*",
     "babel-cli": "^6.6.5",
     "babel-core": "*",
     "babel-loader": "*",
+    "babel-plugin-transform-class-properties": "^6.6.0",
+    "babel-plugin-transform-runtime": "*",
     "babel-polyfill": "*",
+    "babel-preset-env": "^1.5.0",
     "babel-preset-es2015": "*",
     "babel-preset-es2016-node5": "*",
-    "babel-plugin-transform-runtime": "*",
-    "babel-plugin-transform-class-properties": "^6.6.0",
-    "babel-preset-stage-0": "^6.22.0"
+    "babel-preset-stage-0": "^6.22.0",
+    "koa": "^2.0.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-convert": "*",
+    "mocha": "*",
+    "should": "*",
+    "supertest": "*",
+    "supertest-koa-agent": "*"
   },
   "directories": {},
   "files": [
@@ -36,7 +35,7 @@
     "lib",
     "src"
   ],
-  "homepage": "https://github.com/mrsunlin/koa-jwt-redis-session",
+  "homepage": "https://github.com/iwater/koa2-jwt-redis-session",
   "keywords": [
     "koa",
     "middleware",
@@ -50,20 +49,20 @@
   "license": "MIT",
   "maintainers": [
     {
-      "name": "Lin Sun"
+      "name": "iwater"
     }
   ],
-  "name": "koa-jwt-redis-session",
+  "name": "koa2-jwt-redis-session",
   "optionalDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git@github.com:lyalls/koa-jwt-redis-session.git"
+    "url": "git@github.com:iwater/koa2-jwt-redis-session.git"
   },
   "scripts": {
     "test-dev": "mocha --compilers js:babel-core/register ./src/test.js",
     "test": "mocha ./lib/test.js",
-    "build": "babel --presets es2015,es2016-node5 --plugins transform-class-properties,transform-runtime --out-dir ./lib ./src"
+    "build": "babel --out-dir ./lib ./src",
+    "prepublish": "npm run build"
   },
-  "version": "0.0.30"
+  "version": "0.0.31"
 }
-

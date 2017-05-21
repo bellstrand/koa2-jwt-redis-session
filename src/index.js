@@ -3,9 +3,7 @@ let debug = require('debug')('koa-jwt-redis-session')
 
 import redis from 'ioredis'
 import JWT from 'jsonwebtoken'
-import thunkify from 'thunkify'
 import uid from 'uid2'
-import co from 'co'
 
 const DEBUG_LOG_HEADER = '[koa-jwt-redis-session]'
 const EXPIRES_IN_SECONDS = 60 * 60
@@ -304,23 +302,16 @@ class Session {
 
 // Store Base Class
 class Store {
-    constructor(opts){
-    }
     async exists(key){
         let exists = true;
         if(this.type === 'redis') {
             if (!key || !this.client || !this.client.exists) return exists;
-            const client = this.client;
             try {
-                return await co(function*() {
-                    return yield client.exists(key);
-                })
+                return await this.client.exists(key)
             }catch (ex){
                 // under some condition, it may not support exists command, wield
                 debug('Error when trying invoke "exists" of redis driver:', ex);
-                let value = await co(function*(){
-                    return yield client.get(key);
-                })
+                let value = await this.client.get(key)
                 if(value) return true;
                 else return false;
             }
@@ -341,10 +332,7 @@ class Store {
     async get(key){
         if(this.type === 'redis'){
             if(!key || !this.client || !this.client.get) return null;
-            const client = this.client;
-            let value = await co(function*(){
-                return yield client.get(key);
-            })
+            let value = await this.client.get(key);
             if(value && typeof value === 'string') return JSON.parse(value);
             else return value;
         }
@@ -367,16 +355,13 @@ class RedisStore extends  Store{
 
         const client = this.client;
 
-        client.select(db, function () {
-            debug('redis changed to db %d', db);
-        });
-
-        client.get = thunkify(client.get);
-        client.exists = thunkify(client.exists);
         client.ttl = ttl ? (key)=>{ client.expire(key, ttl); } : ()=>{};
 
         client.on('connect', function () {
             debug('redis is connecting');
+            client.select(db, function () {
+                debug('redis changed to db %d', db);
+            });
         });
 
         client.on('ready', function () {

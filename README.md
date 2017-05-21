@@ -9,8 +9,8 @@ As middleware:
 ```javascript
 const koa = require('koa'),
       bodyParser = require('koa-bodyparser'),
-      session = require('koa-jwt-redis-session')
-// import session from 'koa-jwt-redis-session'
+      session = require('koa2-jwt-redis-session')
+// import session from 'koa2-jwt-redis-session'
 
 const app = new koa()
 app.use(bodyParser())
@@ -41,7 +41,7 @@ As a function:
 ```javascript
 // After used as middleware
 // Somewhere when using as backdore
-import {createSession, authoriseRequest} from 'koa-jwt-redis-session'
+import {createSession, authoriseRequest} from 'koa2-jwt-redis-session'
 
 let openDoorHandler = async (ctx, next)=>{
     let userObj = {account: 'sneaky', password: 'open_the_back_door'};
@@ -85,7 +85,7 @@ Here is the default option values
   jwt: {
     contentType: 'application/json',
     charset: 'utf-8',
-    secret: 'koa-jwt-redis-session' + new Date().getTime(),
+    secret: 'koa2-jwt-redis-session' + new Date().getTime(),
     authPath: '/authorize',
     registerPath: '/register',
     refreshTokenPath: '/refreshToken',
